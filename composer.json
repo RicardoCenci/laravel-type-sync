@@ -1,0 +1,19 @@
+{
+    "name": "ricardo-fabris/laravel-type-sync",
+    "description": "Laravel package to transform PHP classes into Typescript interfaces",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "RicardoFabris\\LaravelTypeSync\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ricardo Cenci Fabris",
+            "email": "ricardocencifabris@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
