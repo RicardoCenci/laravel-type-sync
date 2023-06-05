@@ -32,9 +32,9 @@ class TSCodeGen
 
     public function generateFromEntry(\ReflectionClass $reflectionClass, TSFile $tsFile): string
     {
-        if($reflectionClass->isEnum()){
+        if($reflectionClass->isEnum()) {
             $this->makeEnum($reflectionClass, $tsFile);
-        }else{
+        } else {
             $this->makeInterface($reflectionClass, $tsFile);
         }
 
@@ -43,7 +43,8 @@ class TSCodeGen
         return $tsFile->getName();
     }
 
-    private function makeInterface(\ReflectionClass $reflectionClass, TSFile $tsFile){
+    private function makeInterface(\ReflectionClass $reflectionClass, TSFile $tsFile)
+    {
         $interface = new TSInterface($reflectionClass, $this);
 
         foreach($reflectionClass->getProperties() as $property) {
@@ -51,11 +52,12 @@ class TSCodeGen
         }
 
         $tsFile->addTSType($interface);
-    
+
         return $tsFile;
     }
 
-    private function makeEnum(\ReflectionEnum $reflectionClass, TSFile $tsFile){
+    private function makeEnum(\ReflectionEnum $reflectionClass, TSFile $tsFile)
+    {
         $enum = new TSEnum($reflectionClass, $this);
 
         foreach($reflectionClass->getCases() as $case) {
@@ -63,7 +65,7 @@ class TSCodeGen
         }
 
         $tsFile->addTSType($enum);
-        
+
         return $tsFile;
     }
 
@@ -111,7 +113,7 @@ class TSCodeGen
     {
         $map = [];
         $errors = [];
-        
+
         foreach($files as $fileName) {
             try {
 
@@ -120,7 +122,7 @@ class TSCodeGen
                  * @var \ReflectionClass $reflectionClass
                  * @var TSFile $tsFile
                  */
-                
+
                 if(!$reflectionClass->implementsInterface(TypescriptTranslatable::class)) {
                     continue;
                 }
@@ -152,7 +154,7 @@ class TSCodeGen
 
             $reflectionClass =  new \ReflectionClass($namespace);
 
-            if($reflectionClass->isEnum()){
+            if($reflectionClass->isEnum()) {
                 $reflectionClass = new \ReflectionEnum($namespace);
             }
         } catch (\Throwable $th) {
