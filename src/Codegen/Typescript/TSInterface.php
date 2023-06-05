@@ -27,14 +27,14 @@ class TSInterface
             return;
         }
 
-        [$reflectionClass, $tsFile] = $typeDef;
+        [$importReflectionClass, $importTsFile] = $typeDef;
         /** @var \ReflectionClass $reflectionClass */
         /** @var TSFile $tsFile */
 
 
-        $this->addImport($reflectionClass->getShortName(), $tsFile->getName() . "Type");
+        $this->addImport($importReflectionClass->getShortName(), $importTsFile->getName() . "Type");
 
-        $this->properties[] = [$property, $reflectionClass->getShortName()];
+        $this->properties[] = [$property, $importReflectionClass->getShortName()];
     }
 
     public function addImport(string $name, string $from)

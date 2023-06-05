@@ -19,7 +19,8 @@ class TSFile
         $this->imports[$from][] = $name;
     }
 
-    public function addTSType(TSInterface | TSEnum $obj){
+    public function addTSType(TSInterface | TSEnum $obj)
+    {
         $this->tsTypes[] = $obj;
         $this->imports = array_merge($this->imports, $obj->getImports());
     }
@@ -38,9 +39,11 @@ class TSFile
     {
         $header = '';
         foreach ($this->imports as $from => $imports) {
+            $relativePath = Files::getRelativeImportPath($this->getName(), $from);
+
             $header .= "import { ";
             $header .= implode(', ', $imports);
-            $header .= " } from '../{$from}';\n";
+            $header .= " } from '{$relativePath}';\n";
         }
 
         return $header === '' ? '' : $header . "\n\n";

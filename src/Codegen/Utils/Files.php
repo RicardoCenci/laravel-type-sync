@@ -32,4 +32,39 @@ class Files
         return $files;
     }
 
+
+    public static function getRelativeImportPath(string $baseFilePath, string $targetFilePath): string
+    {
+        $baseDir = dirname($baseFilePath);
+        $targetDir = dirname($targetFilePath);
+
+
+        $commonPath = '';
+
+        $basePathParts = explode('/', $baseDir);
+        $targetPathParts = explode('/', $targetDir);
+
+        $numOfParts = min(count($basePathParts), count($targetPathParts));
+
+
+        for ($i = 0; $i < $numOfParts; $i++) {
+            if($basePathParts[$i] !== $targetPathParts[$i]) {
+                break;
+            }
+
+            $commonPath .= $basePathParts[$i] . '/';
+        }
+
+        $numOfBaseDirs = count($basePathParts) - $i;
+
+        $relativeDirectory = $numOfBaseDirs == 0 ? './' : str_repeat('../', $numOfBaseDirs);
+
+        $target = substr($targetDir, strlen($commonPath));
+
+        $fileName = basename($targetFilePath);
+
+        return str_replace('//', '/', $relativeDirectory . $target . '/' . $fileName);
+
+    }
+
 }
