@@ -19,7 +19,7 @@ class TSFile
         $this->imports[$from][] = $name;
     }
 
-    public function addTSType(TSInterface | TSEnum $obj)
+    public function addTSType(TSType $obj)
     {
         $this->tsTypes[] = $obj;
         $this->imports = array_merge($this->imports, $obj->getImports());

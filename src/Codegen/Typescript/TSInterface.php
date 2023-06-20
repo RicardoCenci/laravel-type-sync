@@ -4,18 +4,18 @@ namespace RicardoFabris\LaravelTypeSync\Codegen\Typescript;
 
 use RicardoFabris\LaravelTypeSync\Codegen\TSCodeGen;
 
-class TSInterface
+class TSInterface extends TSType
 {
     /**
      * @var \ReflectionProperty[]
      */
     private array $properties = [];
-    private array $imports = [];
 
     public function __construct(
         protected \ReflectionClass $reflectionClass,
-        protected TSCodeGen $tsCodeGenInstance
+        TSCodeGen $tsCodeGenInstance
     ) {
+        parent::__construct($tsCodeGenInstance);
     }
 
     public function addProperty(\ReflectionProperty $property)
@@ -37,17 +37,7 @@ class TSInterface
         $this->properties[] = [$property, $importReflectionClass->getShortName()];
     }
 
-    public function addImport(string $name, string $from)
-    {
-        $this->imports[$from][] = $name;
-    }
-
-    public function getImports()
-    {
-        return $this->imports;
-    }
-
-    public function __toString()
+    public function compile(): string
     {
         $name = $this->reflectionClass->getShortName();
         $classDocComment = $this->reflectionClass->getDocComment();

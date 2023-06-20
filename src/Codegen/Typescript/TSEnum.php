@@ -4,26 +4,23 @@ namespace RicardoFabris\LaravelTypeSync\Codegen\Typescript;
 
 use RicardoFabris\LaravelTypeSync\Codegen\TSCodeGen;
 
-class TSEnum
+class TSEnum extends TSType
 {
-
     private array $cases = [];
+
     public function __construct(
         protected \ReflectionEnum $reflectionEnum,
-        protected TSCodeGen $tsCodeGenInstance
+        TSCodeGen $tsCodeGenInstance
     ) {
+        parent::__construct($tsCodeGenInstance);
     }
 
-    public function getImports(){
-        return [];
-    }
-
-    public function addCase(\ReflectionClassConstant $case){
+    public function addCase(\ReflectionClassConstant $case)
+    {
         $this->cases[] = $case;
     }
 
-
-    public function __toString()
+    public function compile(): string
     {
         $name = $this->reflectionEnum->getShortName();
 
@@ -34,8 +31,8 @@ class TSEnum
             $enum .= $classDocComment;
             $enum .= "\n";
         }
-       
-        
+
+
         $enum .= "export declare enum {$name} {\n";
 
         foreach ($this->cases as $case) {
@@ -51,10 +48,10 @@ class TSEnum
 
             $caseValue = $case->getValue();
 
-            
 
-            if(!empty($caseValue->value)){
-                
+
+            if(!empty($caseValue->value)) {
+
                 $enum .= " = ";
 
                 $value = $caseValue->value;
@@ -71,7 +68,8 @@ class TSEnum
         return $enum;
     }
 
-    private function addQuotes($value){
+    private function addQuotes($value)
+    {
         return "'{$value}'";
     }
 }
